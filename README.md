@@ -24,13 +24,13 @@ TFT Tools	- python scripts for image and font compression
 - compressor saves antialiasing information for smooth display on TFT screen
 
 
-EXAMPLE 1: Compressing font verdana with size 12 and exporting to .c file
+<u>EXAMPLE 1:</u> Compressing font verdana with size 12 and exporting to .c file
 
 	fcmpr = FontCompressor("verdana.ttf", 12)
 	fcmpr.export2c("verdana.c", "verdana12")
 
 
-EXAMPLE 2: Compressing font verdana with size 14 - only selected characters
+<u>EXAMPLE 2:</u> Compressing font verdana with size 14 - only selected characters
 
 	fcmpr = FontCompressor("verdana.ttf", 12)
 	fcmpr.export2c("verdana.c", "verdana12", "1234567890ABCDEF")
@@ -47,12 +47,12 @@ EXAMPLE 2: Compressing font verdana with size 14 - only selected characters
 
 
 
-EXAMPLE 1: Compressing image00.png (240x320) and exporting to .c file
+<u>EXAMPLE 1:</u> Compressing image00.png (240x320) and exporting to .c file
 
 	icmpr = ImgCompressor("image00.png")
 	icmpr.export2c("image00.c", "image00")
 
-EXAMPLE 2: Compressing image01.png (240x320) and exporting to .c file.
+<u>EXAMPLE 2:</u> Compressing image01.png (240x320) and exporting to .c file.
 	   In addition image is compared to image00.png and only differences are encoded.		   
 	   Latter to properly display this image it is require to display image00 first, and
 	   than image01 as only parts of picture that changed are updated.
