@@ -10,9 +10,8 @@ Drivers and tools for developing applications on STM32 platform with ILI9341 TFT
 <b>Drivers:</b>
 
 - optimized for 16bit color (565 format) and 16-bit data bus
-- included decompressors for images and fonts
+- included basic graphic functions and decompressors for images and fonts
 - text displayed with antialiasing
-
 
 
 <b>Font Compressor:</b>
