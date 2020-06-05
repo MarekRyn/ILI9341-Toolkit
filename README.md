@@ -11,7 +11,7 @@ Drivers:
 
 - optimized for 16bit color (565 format) and 16-bit data bus
 - included decompressors for images and fonts
-- text displayed with antyaliasing
+- text displayed with antialiasing
 
 
 
@@ -21,7 +21,7 @@ Font Compressor:
 - as default all characters from ASCII 32 to 127 are encoded
 - it is possible to define subset of characters that schould be encoded and
   consequently saving uC's memory
-- compressor saves antyaliasing information for smooth display on TFT screen
+- compressor saves antialiasing information for smooth display on TFT screen
 
 
 EXAMPLE 1: Compressing font verdana with size 12 and exporting to .c file
@@ -64,5 +64,5 @@ icmpr.export2c("image01.c", "image01")
 
 
 Drivers and tools are at early stage of development. Any improvements from
-commuinity are welcome.
+community are welcome.
 
