@@ -37,7 +37,7 @@ EXAMPLE 2: Compressing font verdana with size 14 - only selected characters
 
 
 
-Image Compressor:
+<b>Image Compressor:</b>
 
 - designed for images with max 255 colors (mainly GUI graphics, not photos)
 - recommended resolution 240x320
@@ -62,6 +62,6 @@ EXAMPLE 2: Compressing image01.png (240x320) and exporting to .c file.
 	icmpr.export2c("image01.c", "image01")
 
 
-Drivers and tools are at early stage of development. Any improvements from
-community are welcome.
+<b>Drivers and tools are at early stage of development. Any improvements from
+community are welcome.</b>
 
