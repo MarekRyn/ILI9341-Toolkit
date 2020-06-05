@@ -1,0 +1,169 @@
+# Created on: Jun 01, 2020
+# Author: Marek Ryn
+
+
+# Imports
+from PIL import Image, ImageDraw, ImageFont
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+class FontCompressor:
+
+    @staticmethod
+    def _getm(cc):
+        m = 0
+        if cc > 10: m = 1
+        if cc > 92: m = 2
+        if cc > 174: m = 3
+        return m
+
+    @staticmethod
+    def _getcc(m):
+        cc = 0
+        if m == 1: cc = 91
+        if m == 2: cc = 173
+        if m == 3: cc = 255
+        return cc
+
+    def __init__(self, fontfile, size, subset=""):
+
+        # If no subset defined than creating default set of characters to encode
+        if not subset:
+            for j in range(33, 127):
+                subset += chr(j)
+
+        c_width = 128
+        c_height = 128
+        self.fontarray = []
+        self.maxh = 0
+        self.outbin = []
+
+        # Loading font file
+        print("Loading font file...")
+
+        try:
+            font = ImageFont.truetype(fontfile, size=size)
+        except:
+            print('ERROR 1: Unable to open font file or unknown format')
+            return
+
+        # Calculating max height and individual widths for given characters' set
+        print("Calculating max height and individual widths for given characters' set...")
+
+        self.maxh = 0
+        canvas = Image.new("L", (c_width, c_height), 0)
+        draw = ImageDraw.Draw(canvas)
+        for c in range(33, 127):
+            self.fontarray.append([0, []])
+            draw.rectangle([(0, 0), (c_width, c_height)], fill=0, outline=None)
+            draw.text((0, 0), chr(c), fill=255, font=font)
+            for y in range(0, c_height):
+                for x in range(0, c_width):
+                    if canvas.getpixel((x, y)) > 0:
+                        if (y+1) > self.maxh: self.maxh = y + 1
+                        if (x+1) > self.fontarray[c-33][0]: self.fontarray[c-33][0] = x + 1
+
+
+        # Assuming that space width is the same as 'a' width
+        self.space_width = self.fontarray[97-33][0]
+
+        # Compressing characters
+        print("Compressing individual characters... ")
+
+        for c in range(33, 127):
+            if chr(c) not in subset: continue
+
+            draw.rectangle([(0, 0), (c_width, c_height)], fill=0, outline=None)
+            draw.text((0, 0), chr(c), fill=255, font=font)
+
+            h = self.maxh
+            w = self.fontarray[c-33][0]
+
+            if w == 0: continue
+
+            i = 0
+
+            while True:
+                x = i % w
+                y = i // w
+                m = self._getm(canvas.getpixel((x, y)))
+
+                if (m == 0) or (m == 3):
+                    byte = m * 64
+                    cnt = 0
+                    while (self._getm(canvas.getpixel((x, y))) == m) and (cnt < 63):
+                        cnt += 1
+                        i += 1
+                        if i > (w * h): break
+                        x = i % w
+                        y = i // w
+                    byte += cnt
+                    self.fontarray[c - 33][1].append(byte)
+
+                if (m == 1) or (m == 2):
+                    byte = m
+                    cnt = 0
+                    while cnt < 3:
+                        byte = byte << 2
+                        cnt += 1
+                        i += 1
+                        if i > (w * h): i = w * h
+                        x = i % w
+                        y = i // w
+                        m = self._getm(canvas.getpixel((x, y)))
+                        byte += m
+                    self.fontarray[c - 33][1].append(byte)
+                    i += 1
+
+                if i > (w * h): break
+
+        print("Encoding data...")
+        adr = 192
+        self.outbin.append(self.maxh)
+        self.outbin.append(self.space_width)
+
+        for c in range(33, 127):
+            if (chr(c) in subset) and (self.fontarray[c-33][0] > 0):
+                self.outbin.append(adr % 256)
+                self.outbin.append(adr // 256)
+                adr += len(self.fontarray[c-33][1]) + 1
+            else:
+                self.outbin.append(adr % 256)
+                self.outbin.append(adr // 256)
+
+        self.outbin.append(adr % 256)
+        self.outbin.append(adr // 256)
+
+        for c in range(33, 127):
+            if (chr(c) not in subset) or (self.fontarray[c-33][0] == 0): continue
+            self.outbin.append(self.fontarray[c - 33][0])
+            self.outbin.extend(self.fontarray[c - 33][1])
+
+    def export2bin(self, fname):
+        # Saving encoded binary file
+        print("Exporting to binary file...")
+        with open(fname, "wb") as f:
+            f.write(self.outbin)
+
+    def export2c(self, fname, varname):
+        # Saving as c/cpp text file
+        print("Exporting to C/CPP file...")
+        with open(fname, "a+") as f:
+            f.write("//------------------------------------------------------------------------------\n")
+            f.write("// File generated by TFT Tools - Font Compressor \n")
+            f.write("// Written by Marek Ryn \n")
+            f.write("//------------------------------------------------------------------------------\n")
+            f.write("\n")
+            f.write("const uint8_t "+varname+" ["+str(len(self.outbin))+"] = {")
+            for i in range(len(self.outbin)):
+                if i % 16 == 0:
+                    f.write("\n")
+                f.write("0x{:02x}".format(self.outbin[i]))
+                if i < len(self.outbin) - 1:
+                    f.write(", ")
+            f.write("};\n\n")
+
+
