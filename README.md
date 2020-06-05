@@ -53,10 +53,10 @@ icmpr = ImgCompressor("image00.png")
 icmpr.export2c("image00.c", "image00")
 
 EXAMPLE 2: Compressing image01.png (240x320) and exporting to .c file.
-		   In addition image is compared to image00.png and only differences are encoded.
+	   In addition image is compared to image00.png and only differences are encoded.
 		   
-		   Latter to properly display this image it is require to display image00 first, and
-		   than image01 as only parts of picture that changed are updated.
+	   Latter to properly display this image it is require to display image00 first, and
+	   than image01 as only parts of picture that changed are updated.
 
 		   
 icmpr = ImgCompressor("image01.png", "image00.png")
