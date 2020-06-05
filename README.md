@@ -3,8 +3,8 @@ Drivers and tools for developing applications on STM32 platform with ILI9341 TFT
 
 <b>Content:</b>
 
-STM32F1		- drivers for ILI9341 optimized for parralel 16-bit communication
-TFT Tools	- python scripts for image and font compression
+* STM32F1	- drivers for ILI9341 optimized for parralel 16-bit communication
+* TFT Tools	- python scripts for image and font compression
 
 
 <b>Drivers:</b>
