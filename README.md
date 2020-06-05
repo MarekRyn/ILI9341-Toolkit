@@ -2,8 +2,7 @@
 Drivers and tools for developing applications on STM32 platform with ILI9341 TFT.
 
 
-	<b>Drivers and tools are at early stage of development. Any improvements from
-	community are welcome.</b>
+	Drivers and tools are at early stage of development. Any improvements from community are welcome.
 
 <b>Content:</b>
 
