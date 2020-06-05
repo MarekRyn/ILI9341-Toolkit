@@ -1,6 +1,10 @@
 # ILI9341-Toolkit
 Drivers and tools for developing applications on STM32 platform with ILI9341 TFT.
 
+
+	<b>Drivers and tools are at early stage of development. Any improvements from
+	community are welcome.</b>
+
 <b>Content:</b>
 
 * STM32F1	- drivers for ILI9341 optimized for parralel 16-bit communication
@@ -60,7 +64,4 @@ Drivers and tools for developing applications on STM32 platform with ILI9341 TFT
 	icmpr = ImgCompressor("image01.png", "image00.png")
 	icmpr.export2c("image01.c", "image01")
 
-
-<b>Drivers and tools are at early stage of development. Any improvements from
-community are welcome.</b>
 
