@@ -34,8 +34,8 @@ Drivers and tools for developing applications on STM32 platform with ILI9341 TFT
 
 <u>EXAMPLE 2:</u> Compressing font verdana with size 14 - only selected characters
 
-	fcmpr = FontCompressor("verdana.ttf", 12)
-	fcmpr.export2c("verdana.c", "verdana12", "1234567890ABCDEF")
+	fcmpr = FontCompressor("verdana.ttf", 12, "1234567890ABCDEF")
+	fcmpr.export2c("verdana.c", "verdana12")
 
 
 
